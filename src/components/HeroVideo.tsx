@@ -1,14 +1,17 @@
-import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { BookOpen, User, Sparkles } from "lucide-react";
 
-export function HeroVideo() {
-  const navigate = useNavigate();
+interface HeroVideoProps {
+  onOpenBooks: () => void;
+  onOpenAbout: () => void;
+  onOpenComingSoon: () => void;
+}
 
+export function HeroVideo({ onOpenBooks, onOpenAbout, onOpenComingSoon }: HeroVideoProps) {
   const navItems = [
-    { label: "Books", icon: BookOpen, path: "/books" },
-    { label: "About the Author", icon: User, path: "/about" },
-    { label: "Coming Soon", icon: Sparkles, path: "/coming-soon" },
+    { label: "Books", icon: BookOpen, action: onOpenBooks },
+    { label: "About the Author", icon: User, action: onOpenAbout },
+    { label: "Coming Soon", icon: Sparkles, action: onOpenComingSoon },
   ];
 
   return (
@@ -32,10 +35,10 @@ export function HeroVideo() {
       <nav className="absolute right-8 md:right-16 top-1/2 -translate-y-1/2 flex flex-col gap-4 z-10">
         {navItems.map((item, index) => (
           <Button
-            key={item.path}
+            key={item.label}
             variant="nav"
             size="lg"
-            onClick={() => navigate(item.path)}
+            onClick={item.action}
             className="justify-start gap-3 animate-slide-right min-w-[200px]"
             style={{ animationDelay: `${index * 0.15}s`, opacity: 0 }}
           >
