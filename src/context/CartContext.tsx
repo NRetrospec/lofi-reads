@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
 import { Book, CartItem } from "@/types/book";
 
 interface CartContextType {
@@ -13,8 +13,34 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const CART_STORAGE_KEY = "lofi-reads-cart";
+
+// Helper functions for localStorage
+const loadCartFromStorage = (): CartItem[] => {
+  try {
+    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch (error) {
+    console.error("Failed to load cart from localStorage:", error);
+    return [];
+  }
+};
+
+const saveCartToStorage = (items: CartItem[]) => {
+  try {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+  } catch (error) {
+    console.error("Failed to save cart to localStorage:", error);
+  }
+};
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(loadCartFromStorage);
+
+  // Persist cart to localStorage whenever it changes
+  useEffect(() => {
+    saveCartToStorage(items);
+  }, [items]);
 
   const addToCart = useCallback((book: Book) => {
     setItems((prev) => {

@@ -3,6 +3,7 @@ import { Book } from "@/types/book";
 import { Button } from "@/components/ui/button";
 import { ShoppingBag, Heart, Star, ArrowLeft } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
 import { toast } from "@/hooks/use-toast";
 
 interface BookDetailModalProps {
@@ -13,14 +14,27 @@ interface BookDetailModalProps {
 
 export function BookDetailModal({ book, open, onOpenChange }: BookDetailModalProps) {
   const { addToCart } = useCart();
+  const { isInWishlist, toggleWishlist } = useWishlist();
 
   if (!book) return null;
+
+  const inWishlist = isInWishlist(book.id);
 
   const handleAddToCart = () => {
     addToCart(book);
     toast({
       title: "Added to cart",
       description: `"${book.title}" has been added to your cart.`,
+    });
+  };
+
+  const handleWishlistToggle = async () => {
+    await toggleWishlist(book);
+    toast({
+      title: inWishlist ? "Removed from wishlist" : "Added to wishlist",
+      description: inWishlist
+        ? `"${book.title}" has been removed from your wishlist.`
+        : `"${book.title}" has been added to your wishlist.`,
     });
   };
 
@@ -106,8 +120,13 @@ export function BookDetailModal({ book, open, onOpenChange }: BookDetailModalPro
                   <ShoppingBag className="h-5 w-5" />
                   Add to Cart
                 </Button>
-                <Button variant="outline" size="lg">
-                  <Heart className="h-5 w-5" />
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={handleWishlistToggle}
+                  className={inWishlist ? "text-red-500 border-red-500 hover:bg-red-50" : ""}
+                >
+                  <Heart className={`h-5 w-5 ${inWishlist ? "fill-red-500" : ""}`} />
                 </Button>
               </div>
             </div>

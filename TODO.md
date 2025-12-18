@@ -1,0 +1,1 @@
+- [x] Add favicon link to index.html for 'public/Nretrospec-logos-FINALS.png'

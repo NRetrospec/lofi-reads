@@ -51,7 +51,7 @@ export function HeroVideo({ onOpenBooks, onOpenAbout, onOpenComingSoon }: HeroVi
       {/* Logo/Title */}
       <div className="absolute left-8 md:left-16 bottom-16 md:bottom-24 z-10 animate-fade-in" style={{ animationDelay: "0.5s", opacity: 0 }}>
         <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl text-foreground/90 mb-2">
-          Nightingale
+          Lofi Reads
         </h1>
         <p className="font-sans text-lg md:text-xl text-muted-foreground tracking-wide">
           Books & Stories
