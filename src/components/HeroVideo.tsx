@@ -22,6 +22,7 @@ export function HeroVideo({ onOpenBooks, onOpenAbout, onOpenComingSoon }: HeroVi
         muted
         loop
         playsInline
+        preload="auto"
         className="absolute inset-0 w-full h-full object-cover"
         style={{ objectPosition: '30% center' }}
       >
