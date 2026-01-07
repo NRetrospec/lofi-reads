@@ -7,10 +7,24 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: {
+        DEFAULT: '1rem',
+        sm: '2rem',
+        lg: '4rem',
+        xl: '5rem',
+        '2xl': '6rem',
+      },
       screens: {
         "2xl": "1400px",
       },
+    },
+    screens: {
+      'xs': '475px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1400px',
     },
     extend: {
       fontFamily: {
@@ -100,6 +114,12 @@ export default {
       backgroundImage: {
         "gradient-warm": "linear-gradient(135deg, hsl(var(--cream)) 0%, hsl(var(--secondary)) 100%)",
         "gradient-card": "linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--secondary)) 100%)",
+      },
+      spacing: {
+        'safe-top': 'env(safe-area-inset-top)',
+        'safe-bottom': 'env(safe-area-inset-bottom)',
+        'safe-left': 'env(safe-area-inset-left)',
+        'safe-right': 'env(safe-area-inset-right)',
       },
     },
   },

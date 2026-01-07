@@ -134,61 +134,63 @@ export function BooksModal({ open, onOpenChange }: BooksModalProps) {
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-6xl w-[95vw] max-h-[90vh] overflow-hidden flex flex-col p-0">
-          <DialogHeader className="px-6 pt-6 pb-4 border-b border-border flex-shrink-0">
+        <DialogContent className="max-w-6xl w-[95vw] h-[90vh] sm:max-h-[90vh] overflow-hidden flex flex-col p-0">
+          <DialogHeader className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b border-border flex-shrink-0">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="inline-flex items-center gap-2 text-accent">
-                  <BookOpen className="h-5 w-5" />
-                  <span className="font-sans text-sm uppercase tracking-widest">Collection</span>
-                </div>
+              <div className="flex items-center gap-2 sm:gap-3 text-accent">
+                <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="font-sans text-xs sm:text-sm uppercase tracking-widest">Collection</span>
               </div>
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="gap-2"
+                  className="gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3"
                   onClick={() => setWishlistOpen(true)}
                 >
-                  <Heart className="h-4 w-4" />
-                  Wishlist ({wishlistCount})
+                  <Heart className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">Wishlist</span>
+                  <span className="sm:hidden">({wishlistCount})</span>
+                  <span className="hidden sm:inline">({wishlistCount})</span>
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
-                  className="gap-2"
+                  className="gap-1 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3"
                   onClick={() => setCartOpen(true)}
                 >
-                  <ShoppingBag className="h-4 w-4" />
-                  Cart ({totalItems})
+                  <ShoppingBag className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden sm:inline">Cart</span>
+                  <span className="sm:hidden">({totalItems})</span>
+                  <span className="hidden sm:inline">({totalItems})</span>
                 </Button>
               </div>
             </div>
-            <DialogTitle className="font-serif text-4xl md:text-5xl text-foreground">
+            <DialogTitle className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground">
               Our Books
             </DialogTitle>
-            <p className="text-muted-foreground text-base mt-2">
+            <p className="text-muted-foreground text-sm sm:text-base mt-2">
               Explore our curated collection of stories that transport you to other worlds.
             </p>
 
             {/* Search and Filter Controls */}
-            <div className="mt-6 space-y-4">
+            <div className="mt-4 sm:mt-6 space-y-3 sm:space-y-4">
               {/* Search Bar */}
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="text"
-                  placeholder="Search by title, author, or genre..."
+                  placeholder="Search books..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
+                  className="pl-10 text-sm sm:text-base h-10 sm:h-11"
                 />
               </div>
 
               {/* Sort and Filters Row */}
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 sm:gap-3">
                 <Select value={sortBy} onValueChange={(value) => setSortBy(value as SortOption)}>
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger className="w-full sm:w-[180px] h-9 sm:h-10 text-sm">
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
                   <SelectContent>
@@ -201,44 +203,46 @@ export function BooksModal({ open, onOpenChange }: BooksModalProps) {
                   </SelectContent>
                 </Select>
 
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setFiltersOpen(!filtersOpen)}
-                  className="gap-2"
-                >
-                  <SlidersHorizontal className="h-4 w-4" />
-                  Filters
-                  {activeFiltersCount > 0 && (
-                    <Badge variant="secondary" className="ml-1 h-5 w-5 rounded-full p-0 flex items-center justify-center">
-                      {activeFiltersCount}
-                    </Badge>
-                  )}
-                </Button>
-
-                {activeFiltersCount > 0 && (
-                  <Button variant="ghost" size="sm" onClick={clearFilters}>
-                    Clear all
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setFiltersOpen(!filtersOpen)}
+                    className="gap-2 flex-1 sm:flex-none h-9 sm:h-10 text-sm"
+                  >
+                    <SlidersHorizontal className="h-4 w-4" />
+                    <span>Filters</span>
+                    {activeFiltersCount > 0 && (
+                      <Badge variant="secondary" className="ml-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
+                        {activeFiltersCount}
+                      </Badge>
+                    )}
                   </Button>
-                )}
 
-                <span className="text-sm text-muted-foreground ml-auto">
+                  {activeFiltersCount > 0 && (
+                    <Button variant="ghost" size="sm" onClick={clearFilters} className="h-9 sm:h-10 text-sm">
+                      Clear all
+                    </Button>
+                  )}
+                </div>
+
+                <span className="text-xs sm:text-sm text-muted-foreground sm:ml-auto order-first sm:order-last">
                   {filteredBooks.length} {filteredBooks.length === 1 ? "book" : "books"}
                 </span>
               </div>
 
               {/* Collapsible Filters */}
               <Collapsible open={filtersOpen} onOpenChange={setFiltersOpen}>
-                <CollapsibleContent className="space-y-4 pt-4 border-t">
+                <CollapsibleContent className="space-y-3 sm:space-y-4 pt-3 sm:pt-4 border-t">
                   {/* Genre Filter */}
                   <div className="space-y-2">
-                    <Label className="text-sm font-medium">Genres</Label>
+                    <Label className="text-xs sm:text-sm font-medium">Genres</Label>
                     <div className="flex flex-wrap gap-2">
                       {genres.map((genre) => (
                         <Badge
                           key={genre}
                           variant={selectedGenres.includes(genre) ? "default" : "outline"}
-                          className="cursor-pointer hover:bg-accent"
+                          className="cursor-pointer hover:bg-accent text-xs sm:text-sm py-1 px-2 sm:py-1.5 sm:px-3"
                           onClick={() => handleGenreToggle(genre)}
                         >
                           {genre}
@@ -253,8 +257,8 @@ export function BooksModal({ open, onOpenChange }: BooksModalProps) {
                   {/* Price Range Filter */}
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <Label className="text-sm font-medium">Price Range</Label>
-                      <span className="text-sm text-muted-foreground">
+                      <Label className="text-xs sm:text-sm font-medium">Price Range</Label>
+                      <span className="text-xs sm:text-sm text-muted-foreground">
                         ${priceRange[0]} - ${priceRange[1]}
                       </span>
                     </div>
@@ -271,8 +275,8 @@ export function BooksModal({ open, onOpenChange }: BooksModalProps) {
                   {/* Year Range Filter */}
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <Label className="text-sm font-medium">Publication Year</Label>
-                      <span className="text-sm text-muted-foreground">
+                      <Label className="text-xs sm:text-sm font-medium">Publication Year</Label>
+                      <span className="text-xs sm:text-sm text-muted-foreground">
                         {yearRange[0]} - {yearRange[1]}
                       </span>
                     </div>
@@ -291,24 +295,24 @@ export function BooksModal({ open, onOpenChange }: BooksModalProps) {
           </DialogHeader>
 
           {/* Scrollable Books Grid */}
-          <div className="flex-1 overflow-y-auto px-6 py-6">
+          <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 sm:py-6">
             {loading ? (
               <div className="flex items-center justify-center h-64">
-                <div className="text-muted-foreground">Loading books...</div>
+                <div className="text-muted-foreground text-sm sm:text-base">Loading books...</div>
               </div>
             ) : filteredBooks.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-64 text-center">
-                <BookOpen className="h-12 w-12 text-muted-foreground mb-4" />
-                <h3 className="text-lg font-medium mb-2">No books found</h3>
-                <p className="text-muted-foreground mb-4">
+              <div className="flex flex-col items-center justify-center h-64 text-center px-4">
+                <BookOpen className="h-10 w-10 sm:h-12 sm:w-12 text-muted-foreground mb-4" />
+                <h3 className="text-base sm:text-lg font-medium mb-2">No books found</h3>
+                <p className="text-sm sm:text-base text-muted-foreground mb-4">
                   Try adjusting your search or filters
                 </p>
-                <Button variant="outline" onClick={clearFilters}>
+                <Button variant="outline" onClick={clearFilters} size="sm">
                   Clear filters
                 </Button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {filteredBooks.map((book, index) => (
                   <BookCard key={book.id} book={book} index={index} />
                 ))}

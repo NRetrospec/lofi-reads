@@ -16,7 +16,7 @@ export function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="w-full sm:max-w-lg flex flex-col">
         <SheetHeader>
-          <SheetTitle className="font-serif text-2xl flex items-center gap-2">
+          <SheetTitle className="font-serif text-xl sm:text-2xl flex items-center gap-2">
             <ShoppingBag className="h-5 w-5" />
             Your Cart
           </SheetTitle>
