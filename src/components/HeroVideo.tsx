@@ -1,5 +1,6 @@
 import { Button } from "./ui/button";
 import { BookOpen, User, Sparkles } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 interface HeroVideoProps {
   onOpenBooks: () => void;
@@ -8,22 +9,43 @@ interface HeroVideoProps {
 }
 
 export function HeroVideo({ onOpenBooks, onOpenAbout, onOpenComingSoon }: HeroVideoProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
   const navItems = [
     { label: "Books", icon: BookOpen, action: onOpenBooks },
     { label: "About the Author", icon: User, action: onOpenAbout },
     { label: "Coming Soon", icon: Sparkles, action: onOpenComingSoon },
   ];
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      // Force play on iOS/mobile devices
+      video.play().catch((error) => {
+        console.log("Video autoplay failed:", error);
+        // Try again after a short delay
+        setTimeout(() => {
+          video.play().catch(() => {});
+        }, 100);
+      });
+    }
+  }, []);
+
   return (
     <div className="relative w-full h-screen overflow-hidden">
       {/* Video Background */}
       <video
+        ref={videoRef}
         autoPlay
         muted
         loop
         playsInline
         preload="auto"
-        className="absolute inset-0 w-full h-full object-cover"
+        controls={false}
+        disablePictureInPicture
+        disableRemotePlayback
+        x-webkit-airplay="deny"
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         style={{ objectPosition: '30% center' }}
       >
         <source src="/landing.mp4" type="video/mp4" />

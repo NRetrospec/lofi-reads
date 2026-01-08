@@ -136,6 +136,27 @@
     border: 1px solid hsl(var(--border) / 0.5);
   }
 
+  /* Hide video controls and play buttons */
+  video::-webkit-media-controls {
+    display: none !important;
+  }
+
+  video::-webkit-media-controls-enclosure {
+    display: none !important;
+  }
+
+  video::-webkit-media-controls-panel {
+    display: none !important;
+  }
+
+  video::-webkit-media-controls-play-button {
+    display: none !important;
+  }
+
+  video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+  }
+
   .shadow-soft {
     box-shadow: var(--shadow-soft);
   }
